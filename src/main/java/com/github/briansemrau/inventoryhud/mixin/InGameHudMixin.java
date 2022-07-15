@@ -56,7 +56,6 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
             //this.client.getTextureManager().bindTexture(INVENTORY_TEX);
             RenderSystem.setShaderTexture(0, INVENTORY_TEX);
-            int padding = 5;
             int texWidth = 162;
             int texHeight = 54;
             int u = 7;
@@ -69,23 +68,50 @@ public abstract class InGameHudMixin extends DrawableHelper {
             // Smaller screen resolution
             Arm hand = playerEntity.getMainArm();
             int hotbarWidth = 182 + (hand == Arm.LEFT ? 29 : 0) * 2;
-            if (this.scaledWidth < hotbarWidth + (texWidth + padding) * 2) {
+            if (this.scaledWidth < hotbarWidth + (texWidth) * 2) {
                 width /= 2;
                 height /= 2;
                 slotSize /= 2;
                 smallScale = true;
             }
 
-            int xLeft = this.scaledWidth - width - padding;
-            int yTop = this.scaledHeight - height - padding;
-            int yBottom = this.scaledHeight - padding;
+            int cx = InventoryHUDMod.CONFIG.x;
+            int cy = InventoryHUDMod.CONFIG.y;
+
+            int xLeft;
+            int yTop;
+
+            if (cx >= 0 ) {
+                if ( cy >= 0 ) {
+                    // top left
+                    xLeft = cx;
+                    yTop = cy;
+                } else {
+                    // bottom left
+                    xLeft = cx;
+                    yTop = this.scaledHeight - height + cy;
+                }
+            } else {
+                if ( cy >= 0 ) {
+                    // top right
+                    xLeft = this.scaledWidth - width + cx;
+                    yTop = cy;
+                } else {
+                    // bottom right
+                    xLeft = this.scaledWidth - width + cx;
+                    yTop = this.scaledHeight - height + cy;
+                }
+            }
+
+            int yBottom = yTop + height;
 
             // Draw inventory background
             if (InventoryHUDMod.CONFIG.show) {
                 drawTexture(matrixStack, xLeft, yTop, width, height, u, v, texWidth, texHeight, 256, 256);
 
                 // Draw items
-                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                // Dunno why items_alpha does not work here :(
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, InventoryHUDMod.CONFIG.items_alpha);
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
 

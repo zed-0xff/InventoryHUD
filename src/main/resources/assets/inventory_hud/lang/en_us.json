@@ -1,6 +1,9 @@
 {
   "text.autoconfig.inventory_hud.title": "InventoryHUD Configuration",
   "text.autoconfig.inventory_hud.category.default": "General",
-  "text.autoconfig.inventory_hud.option.alpha": "Alpha",
-  "text.autoconfig.inventory_hud.option.show": "Shown"
+  "text.autoconfig.inventory_hud.option.alpha": "Background Alpha",
+  "text.autoconfig.inventory_hud.option.items_alpha": "Items Alpha",
+  "text.autoconfig.inventory_hud.option.show": "Shown",
+  "text.autoconfig.inventory_hud.option.x": "X",
+  "text.autoconfig.inventory_hud.option.y": "Y"
 }
